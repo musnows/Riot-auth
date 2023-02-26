@@ -7,7 +7,7 @@ __all__ = (
     "UnkownError"
 )
 
-# 自定义EzAuth异常的基类
+
 class EzAuthError(Exception):
     """Base class for Auth errors."""
     def __init__(self, value=''):

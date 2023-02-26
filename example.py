@@ -33,6 +33,15 @@ async def reauth_test():
     except:
         traceback.print_exc()
 
+async def cookie_reauth():
+    path = "./test.cke"
+    auth.save_cookies(path)
+    new_auth = EzAuth()
+    new_auth.load_cookies(path)
+    print("[try to reauth with cookie files]")
+    await new_auth.reauthorize()
+    new_auth.print()
+
 # set your riot account and passwd
 print("[start test]")
 asyncio.run(auth_test(account="",passwd=""))

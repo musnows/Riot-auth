@@ -1,6 +1,7 @@
 # code from https://github.com/Prodzify/Riot-auth/blob/main/main.py
 import ssl
 import time
+import json
 import pandas
 import requests
 from requests.adapters import HTTPAdapter
@@ -195,6 +196,12 @@ class EzAuth:
 
         self.__mfa_start__ = 0
         return {"status":True,"auth":self,"2fa":self.is2fa}
+    
+    async def reauthorize(self):
+        """reauthorize using cookie
+        """
+        await self.authorize("","")
+        return self
 
     def get_entitlement_token(self):
         r = self.session.post(URLS.ENTITLEMENT_URL, json={})
@@ -281,9 +288,18 @@ class EzAuth:
             'entitlements_token': self.entitlements_token,
             'region': self.Region
         }
-
-    async def reauthorize(self):
-        """reauthorize using cookie
+    
+    def save_cookies(self,path:str):
+        """dump cookies_dict to path (wb+)
         """
-        await self.authorize("","")
-        return self
+        cookies = requests.utils.dict_from_cookiejar(self.session.cookies)
+        with open(path,"wb+") as f:
+            f.write(str.encode(json.dumps(cookies),encoding='UTF-8'))
+
+    def load_cookies(self,path:str):
+        """load cookies_dic from path (rb)
+        """
+        with open(path,"rb") as f:
+            load_cookies = json.loads(bytes.decode(f.read(),encoding='UTF-8'))
+        
+        self.session.cookies = requests.utils.cookiejar_from_dict(load_cookies)
