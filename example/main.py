@@ -1,5 +1,5 @@
 # a example for EzAuth
-from EzAuth import EzAuth,EzAuthExp
+from ..EzAuth import EzAuth,EzAuthExp
 import asyncio,traceback
 
 auth = EzAuth()
