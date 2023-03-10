@@ -8,7 +8,7 @@ async def auth_test(account,passwd):
     try:
         res = await auth.authorize(account,passwd)
         print(res)
-        if not res['status']: # err, 2fa
+        if not res: # err, 2fa
             while True:
                 try:
                     vcode = input("input vcoode: ")

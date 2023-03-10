@@ -4,10 +4,11 @@ __all__ = (
     "MultifactorError",
     "WaitOvertimeError",
     "RatelimitError",
+    "InitNotFinishError",
     "UnkownError"
 )
 
-
+# 自定义EzAuth异常的基类
 class EzAuthError(Exception):
     """Base class for Auth errors."""
     def __init__(self, value=''):
@@ -28,6 +29,9 @@ class RatelimitError(EzAuthError):
 
 class MultifactorError(EzAuthError):
     """Error related to multi-factor authentication."""
+
+class InitNotFinishError(EzAuthError):
+    """Error related to use before init EzAuth self value."""
 
 
 class WaitOvertimeError(EzAuthError):
